@@ -33,6 +33,7 @@ void inventory::initialize_upc() {
 }
 
 inventory::inventory() {
+    good
 }
 
 inventory::~inventory() {
