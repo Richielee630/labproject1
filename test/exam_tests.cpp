@@ -171,7 +171,7 @@ inventory_node *test_node = new inventory_node(1, "2", 3, 4, 5);
 delete test_node;
 }
 
-/*
+
 class InventoryFixture : public ::testing::Test {
 
 protected:
@@ -443,4 +443,4 @@ TEST_F(InventoryFixture, SortTests) {
         }
         runner = runner->next;
     }
-}*/
+}
