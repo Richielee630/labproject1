@@ -20,155 +20,155 @@ public:
 };
 
 TEST(queueCrashTest, queueConstructorTest) {
-// Check to see if things crash during basic construction/deconstruction
-queue crash_test = queue();
-queue *new_crash_test = new queue();
-delete new_crash_test;
+    // Check to see if things crash during basic construction/deconstruction
+    queue crash_test = queue();
+    queue *new_crash_test = new queue();
+    delete new_crash_test;
 }
 
 TEST_F(QueueFixture, queueBasicFunctions) {
-// push data to the queues
-value_date to_add = value_date();
-for (int i = 1; i < 101; i++) {
-to_add.date = i;
-to_add.value = i;
-queue1->enqueue(to_add);
-}
-for (int i = 1; i < 101; i++) {
-to_add.date = 3 * i;
-to_add.value = -i;
-queue2->enqueue(to_add);
-}
+    // push data to the queues
+    value_date to_add = value_date();
+    for (int i = 1; i < 101; i++) {
+        to_add.date = i;
+        to_add.value = i;
+        queue1->enqueue(to_add);
+    }
+    for (int i = 1; i < 101; i++) {
+        to_add.date = 3 * i;
+        to_add.value = -i;
+        queue2->enqueue(to_add);
+    }
 
-// Check for throws when reading the top value
-// Also check to see if the output value is the same
-// as what was put in
-value_date top_received{};
-for (int i = 1; i < 101; i++) {
-EXPECT_NO_THROW(queue1->front());
-top_received = queue1->front();
-EXPECT_EQ(i, top_received.value);
-EXPECT_EQ(i, top_received.date);
-queue1->dequeue();
-}
+    // Check for throws when reading the top value
+    // Also check to see if the output value is the same
+    // as what was put in
+    value_date top_received{};
+    for (int i = 1; i < 101; i++) {
+        EXPECT_NO_THROW(queue1->front());
+        top_received = queue1->front();
+        EXPECT_EQ(i, top_received.value);
+        EXPECT_EQ(i, top_received.date);
+        queue1->dequeue();
+    }
 
-// Check to see what happens when front is called multiple
-// times on an empty queue
-// for (int i = 0; i < 20; i++) EXPECT_ANY_THROW(queue1->front());
+    // Check to see what happens when front is called multiple
+    // times on an empty queue
+    for (int i = 0; i < 20; i++) EXPECT_ANY_THROW(queue1->front());
 
-// Dequeue off the first 75 items from the queue and verify
-// they are correct
-for (int i = 1; i < 77; i++) {
-top_received = queue2->front();
-EXPECT_EQ(-i, top_received.value);
-EXPECT_EQ(3 * i, top_received.date);
-queue2->dequeue();
-}
-// Push some more values to the not empty queue
-for (int i = 1; i < 25; i++) {
-to_add.date = (11 * i) % 41;
-to_add.value = -i * -i;
-queue2->enqueue(to_add);
-}
-for (int i = 77; i < 101; i++) {
-top_received = queue2->front();
-EXPECT_EQ(-i, top_received.value);
-EXPECT_EQ(3 * i, top_received.date);
-queue2->dequeue();
-}
-// Pop the values off
-for (int i = 1; i < 25; i++) {
-top_received = queue2->front();
-EXPECT_EQ(-i * -i, top_received.value);
-EXPECT_EQ((11 * i) % 41, top_received.date);
-queue2->dequeue();
-}
-// Check for multiple empty top calls again
-//for (int i = 0; i < 20; i++) EXPECT_ANY_THROW(queue2->front());
+    // Dequeue off the first 75 items from the queue and verify
+    // they are correct
+    for (int i = 1; i < 77; i++) {
+        top_received = queue2->front();
+        EXPECT_EQ(-i, top_received.value);
+        EXPECT_EQ(3 * i, top_received.date);
+        queue2->dequeue();
+    }
+    // Push some more values to the not empty queue
+    for (int i = 1; i < 25; i++) {
+        to_add.date = (11 * i) % 41;
+        to_add.value = -i * -i;
+        queue2->enqueue(to_add);
+    }
+    for (int i = 77; i < 101; i++) {
+        top_received = queue2->front();
+        EXPECT_EQ(-i, top_received.value);
+        EXPECT_EQ(3 * i, top_received.date);
+        queue2->dequeue();
+    }
+    // Pop the values off
+    for (int i = 1; i < 25; i++) {
+        top_received = queue2->front();
+        EXPECT_EQ(-i * -i, top_received.value);
+        EXPECT_EQ((11 * i) % 41, top_received.date);
+        queue2->dequeue();
+    }
+    // Check for multiple empty top calls again
+    for (int i = 0; i < 20; i++) EXPECT_ANY_THROW(queue2->front());
 
 
-// Destructor check
-queue *queue4 = new queue();
-to_add = value_date();
-for (int i = 1; i < 100; i++) {
-to_add.date = i;
-to_add.value = i;
-queue4->enqueue(to_add);
-}
-delete queue4;
+    // Destructor check
+    queue *queue4 = new queue();
+    to_add = value_date();
+    for (int i = 1; i < 100; i++) {
+        to_add.date = i;
+        to_add.value = i;
+        queue4->enqueue(to_add);
+    }
+    delete queue4;
 
 }
 
 TEST_F(QueueFixture, queueOperatorEqualsOverload) {
-// Check to make sure empty queues are properly handled
-*queue1 = *queue2;
+    // Check to make sure empty queues are properly handled
+    *queue1 = *queue2;
 
-// Fill the queue1 with data
-value_date to_add = value_date();
-to_add.date = 17;
-to_add.value = 42;
-queue1->enqueue(to_add);
-for (int i = 8; i < 1008; i++) {
-to_add.date = (i * queue1->front().date) % (queue1->front().value);
-to_add.value = i + queue1->front().value;
-queue1->enqueue(to_add);
-}
+    // Fill the queue1 with data
+    value_date to_add = value_date();
+    to_add.date = 17;
+    to_add.value = 42;
+    queue1->enqueue(to_add);
+    for (int i = 8; i < 1008; i++) {
+        to_add.date = (i * queue1->front().date) % (queue1->front().value);
+        to_add.value = i + queue1->front().value;
+        queue1->enqueue(to_add);
+    }
 
-// Copy queue1 into queue2
-*queue2 = *queue1;
+    // Copy queue1 into queue2
+    *queue2 = *queue1;
 
-// Check to see if it was properly copied
-for (int i = 0; i < 500; i++) {
-EXPECT_EQ(queue1->front().value, queue2->front().value);
-EXPECT_EQ(queue1->front().date, queue2->front().date);
-EXPECT_EQ(queue1->back().value, queue2->back().value);
-EXPECT_EQ(queue1->back().date, queue2->back().date);
-queue1->dequeue();
-queue2->dequeue();
-}
+    // Check to see if it was properly copied
+    for (int i = 0; i < 500; i++) {
+        EXPECT_EQ(queue1->front().value, queue2->front().value);
+        EXPECT_EQ(queue1->front().date, queue2->front().date);
+        EXPECT_EQ(queue1->back().value, queue2->back().value);
+        EXPECT_EQ(queue1->back().date, queue2->back().date);
+        queue1->dequeue();
+        queue2->dequeue();
+    }
 
-// Verify that the data was deep copied
-EXPECT_EQ(queue1->front().value, queue2->front().value);
-EXPECT_EQ(queue1->front().date, queue2->front().date);
-EXPECT_EQ(queue1->back().value, queue2->back().value);
-EXPECT_EQ(queue1->back().date, queue2->back().date);
-queue1->dequeue();
-queue2->dequeue();
+    // Verify that the data was deep copied
+    EXPECT_EQ(queue1->front().value, queue2->front().value);
+    EXPECT_EQ(queue1->front().date, queue2->front().date);
+    EXPECT_EQ(queue1->back().value, queue2->back().value);
+    EXPECT_EQ(queue1->back().date, queue2->back().date);
+    queue1->dequeue();
+    queue2->dequeue();
 
-for (int i = 0; i < 500; i++) {
-EXPECT_NO_THROW(queue1->front());
-EXPECT_EQ(queue1->front().value, queue2->front().value);
-EXPECT_EQ(queue1->front().date, queue2->front().date);
-EXPECT_EQ(queue1->back().value, queue2->back().value);
-EXPECT_EQ(queue1->back().date, queue2->back().date);
-queue1->dequeue();
-queue2->dequeue();
-}
+    for (int i = 0; i < 500; i++) {
+        EXPECT_NO_THROW(queue1->front());
+        EXPECT_EQ(queue1->front().value, queue2->front().value);
+        EXPECT_EQ(queue1->front().date, queue2->front().date);
+        EXPECT_EQ(queue1->back().value, queue2->back().value);
+        EXPECT_EQ(queue1->back().date, queue2->back().date);
+        queue1->dequeue();
+        queue2->dequeue();
+    }
 
-//Check empty top values on queue1
-//  for (int i = 0; i < 20; i++) EXPECT_ANY_THROW(queue1->front());
+    //Check empty top values on queue1
+    for (int i = 0; i < 20; i++) EXPECT_ANY_THROW(queue1->front());
 
-//Check for proper handling of empty stacks
-*queue2 = *queue1;
-for (int i = 0; i < 20; i++) {
-//EXPECT_ANY_THROW(queue1->front());
-//EXPECT_ANY_THROW(queue2->front());
-}
+    //Check for proper handling of empty stacks
+    *queue2 = *queue1;
+    for (int i = 0; i < 20; i++) {
+        EXPECT_ANY_THROW(queue1->front());
+        EXPECT_ANY_THROW(queue2->front());
+    }
 }
 
 TEST(InventoryNodeTest, constructorTest) {
-inventory_node test_node = inventory_node(1, "2", 3, 4, 5);
-EXPECT_EQ(1, test_node.upc);
-EXPECT_EQ("2", test_node.name);
-EXPECT_EQ(3, test_node.inventory_count);
-EXPECT_EQ(4, test_node.price.back().value);
-EXPECT_EQ(5, test_node.price.back().date);
-EXPECT_EQ(nullptr, test_node.next);
+    inventory_node test_node = inventory_node(1, "2", 3, 4, 5);
+    EXPECT_EQ(1, test_node.upc);
+    EXPECT_EQ("2", test_node.name);
+    EXPECT_EQ(3, test_node.inventory_count);
+    EXPECT_EQ(4, test_node.price.back().value);
+    EXPECT_EQ(5, test_node.price.back().date);
+    EXPECT_EQ(nullptr, test_node.next);
 }
 
 TEST(InventoryNodeTest, deconstructorTest) {
-inventory_node *test_node = new inventory_node(1, "2", 3, 4, 5);
-delete test_node;
+    inventory_node *test_node = new inventory_node(1, "2", 3, 4, 5);
+    delete test_node;
 }
 
 

@@ -38,19 +38,20 @@ void queue::enqueue(struct value_date input) {
 }
 
 struct value_date queue::front() const {
-    try{
-        return queue_front->data;
-
-    } catch(int i){
-        throw;
+    if(!queue_front){
+        throw "Queue is Empty!";
         return value_date{};
     }
+    return queue_front->data;
+
 }
 
 struct value_date queue::back() const {
-    if(queue_back){
-        return queue_back->data;
+    if(!queue_back){
+        throw "Queue is Empty!";
+        return value_date{};
     }
+    return queue_back->data;
     return value_date{};
 }
 
