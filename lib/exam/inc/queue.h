@@ -4,11 +4,10 @@
 #include "queue_node.h"
 
 class queue {
-
-public:
     queue_node *queue_front;
     queue_node *queue_back;
 
+public:
     queue();
     ~queue();
 

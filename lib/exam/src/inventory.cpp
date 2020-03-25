@@ -159,14 +159,7 @@ int inventory::get_lowest_price(int input_upc) {
             }
             next = next->next;
         }
-        queue_node*cur = next->price.queue_front;
-        while(cur){
-            if(cur->data.value < lowest_price){
-                lowest_price = cur->data.value;
-            }
-            cur = cur->next;
-        }
-        return lowest_price;
+        return next->price.front().value;
     }
     return 0;
 }
@@ -183,14 +176,7 @@ int inventory::get_highest_price(int input_upc) {
             }
             next = next->next;
         }
-        queue_node*cur = next->price.queue_front;
-        while(cur){
-            if(cur->data.value > lowest_price){
-                lowest_price = cur->data.value;
-            }
-            cur = cur->next;
-        }
-        return lowest_price;
+        return next->price.back().value;
     }
     return 0;
 }
