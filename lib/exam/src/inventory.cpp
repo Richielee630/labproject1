@@ -159,7 +159,19 @@ int inventory::get_lowest_price(int input_upc) {
             }
             next = next->next;
         }
-        return next->price.front().value;
+        queue newque;
+        while(!next->price.empty()){
+            newque.enqueue(next->price.front());
+            if(next->price.front().value < lowest_price){
+                lowest_price = next->price.front().value;
+            }
+            next->price.dequeue();
+        }
+        while(!newque.empty()){
+            next->price.enqueue(newque.front());
+            newque.dequeue();
+        }
+        return lowest_price;
     }
     return 0;
 }
@@ -176,7 +188,21 @@ int inventory::get_highest_price(int input_upc) {
             }
             next = next->next;
         }
-        return next->price.back().value;
+        int highest_price =-1;
+        queue newque;
+        while(!next->price.empty()){
+            newque.enqueue(next->price.front());
+            if(next->price.front().value > highest_price){
+                highest_price = next->price.front().value;
+            }
+            next->price.dequeue();
+        }
+        while(!newque.empty()){
+            next->price.enqueue(newque.front());
+            newque.dequeue();
+        }
+        return highest_price;
+
     }
     return 0;
 }
